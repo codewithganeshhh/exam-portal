@@ -2,6 +2,10 @@
 const resolveApiBase = () => {
   const envUrl = import.meta.env.VITE_API_BASE_URL;
   if (!envUrl) {
+    // In production build (e.g. on Vercel), default automatically to your live Render backend!
+    if (import.meta.env.PROD) {
+      return 'https://exam-portal-5pqf.onrender.com/api';
+    }
     return 'http://localhost:5000/api';
   }
   let cleaned = envUrl.trim().replace(/\/+$/, '');

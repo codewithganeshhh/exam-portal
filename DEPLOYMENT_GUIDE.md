@@ -98,8 +98,8 @@ git push -u origin main
    - **Root Directory**: **"Edit"** par click karein aur `client` select karein (IMPORTANT).
    - **Build and Output Settings**: Default rehne dein (`npm run build` aur `dist`).
 5. **Environment Variables** expand karein aur add karein:
-   - **Name**: `VITE_API_BASE_URL`
-   - **Value**: `https://exam-portal-api.onrender.com/api` *(Step 2 me mila Render backend URL + `/api`)*
+   - **Key**: `VITE_API_BASE_URL`
+   - **Value**: `https://exam-portal-5pqf.onrender.com/api`
 6. Click karein **"Deploy"**.
 7. Vercel kuch seconds me frontend build karke aapko live URL de dega:
    - Example: `https://exam-portal.vercel.app`
