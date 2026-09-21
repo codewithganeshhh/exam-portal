@@ -80,23 +80,29 @@ app.listen(PORT, () => {
   connectDatabase();
 });
 
-// Connect to MongoDB with timeout
-const connectDatabase = async () => {
+// Connect to MongoDB with timeout and retry
+const connectDatabase = async (retryCount = 1, maxRetries = 5) => {
   try {
     const maskedUri = MONGO_URI.includes('@') 
       ? MONGO_URI.replace(/:([^:@]{3})[^:@]*@/, ':***@')
       : MONGO_URI;
-    console.log(`Connecting to MongoDB at: ${maskedUri}...`);
+    console.log(`Connecting to MongoDB at: ${maskedUri}... (Attempt ${retryCount}/${maxRetries})`);
 
     await mongoose.connect(MONGO_URI, {
-      serverSelectionTimeoutMS: 4000,
+      serverSelectionTimeoutMS: 15000,
     });
     console.log('✅ Connected to MongoDB successfully!');
 
     // Check and automatically seed fresh database if empty
     await checkAndAutoSeed();
   } catch (error) {
-    console.log('⚠️ MongoDB is not currently reachable at:', MONGO_URI);
-    console.log('👉 To connect: Open server/.env and paste your MongoDB Atlas URL (MONGO_URI), then run "npm run seed".');
+    console.error('⚠️ MongoDB Connection Failed:', error.message);
+    if (retryCount < maxRetries) {
+      console.log(`⏳ Retrying MongoDB connection in 4 seconds... (Attempt ${retryCount + 1}/${maxRetries})`);
+      setTimeout(() => connectDatabase(retryCount + 1, maxRetries), 4000);
+    } else {
+      console.log('⚠️ MongoDB is still not reachable at:', MONGO_URI);
+      console.log('👉 Tip: Check MongoDB Atlas "Network Access" -> ensure "0.0.0.0/0" (Allow Access from Anywhere) is added.');
+    }
   }
 };
