@@ -344,7 +344,8 @@ h1, h2, h3, h4 {
   border-radius: var(--radius-md);
   color: var(--text-primary);
   font-family: var(--font-body);
-  font-size: 0.938rem;
+  font-size: 1rem;
+  min-height: 46px;
   transition: all var(--transition-fast);
   outline: none;
 }
@@ -450,9 +451,464 @@ h1, h2, h3, h4 {
   to { opacity: 1; transform: scale(1); }
 }
 
-/* Responsive adjustments */
+/* ==========================================================================
+   MOBILE-FIRST & RESPONSIVE DESIGN SYSTEM
+   ========================================================================== */
+
+/* Touch Target Optimization */
+button, input, select, a {
+  touch-action: manipulation;
+}
+
+.touch-target {
+  min-height: 44px;
+}
+
+/* Visibility Utilities */
+.hide-mobile {
+  display: block;
+}
+.show-mobile {
+  display: none !important;
+}
+
 @media (max-width: 768px) {
-  .main-content {
-    padding: 16px 12px 32px;
+  .hide-mobile {
+    display: none !important;
+  }
+  .show-mobile {
+    display: block !important;
+  }
+  .show-mobile-flex {
+    display: flex !important;
   }
 }
+
+/* Responsive Table Container */
+.table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  position: relative;
+}
+
+/* Responsive Glass Panel */
+.glass-panel-responsive {
+  padding: 28px;
+}
+
+@media (max-width: 640px) {
+  .glass-panel-responsive {
+    padding: 18px 16px;
+  }
+}
+
+/* ==========================================================================
+   NAVBAR RESPONSIVENESS
+   ========================================================================== */
+.navbar-wrapper {
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-subtle);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  width: 100%;
+}
+
+.navbar-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+  flex-shrink: 0;
+}
+
+.navbar-brand-logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--grad-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px var(--primary-glow);
+  flex-shrink: 0;
+}
+
+.navbar-brand-title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  line-height: 1.2;
+}
+
+.navbar-brand-sub {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navbar-user-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+}
+
+@media (max-width: 640px) {
+  .navbar-inner {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+  .navbar-brand-logo {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+  }
+  .navbar-brand-title {
+    font-size: 1.05rem;
+  }
+  .navbar-brand-sub {
+    display: none;
+  }
+  .navbar-user-chip {
+    padding: 5px 8px;
+    gap: 6px;
+  }
+  .navbar-user-details {
+    display: none;
+  }
+  .navbar-right {
+    gap: 6px;
+  }
+  .navbar-logout-btn span {
+    display: none;
+  }
+  .navbar-logout-btn {
+    padding: 7px 10px;
+  }
+}
+
+/* ==========================================================================
+   STUDENT DASHBOARD RESPONSIVENESS
+   ========================================================================== */
+.student-banner {
+  padding: 28px 32px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.95) 100%);
+}
+
+.student-banner-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.student-banner-title {
+  font-size: clamp(1.4rem, 3.5vw, 2rem);
+  margin-bottom: 8px;
+  line-height: 1.25;
+}
+
+.exam-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 20px;
+}
+
+@media (max-width: 640px) {
+  .student-banner {
+    padding: 20px 16px;
+  }
+  .student-banner-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .student-banner-notice {
+    width: 100%;
+  }
+  .exam-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+/* Mobile Result Card View for History */
+.mobile-history-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  margin-bottom: 12px;
+}
+
+.mobile-history-card:last-child {
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   EXAM PORTAL RESPONSIVENESS
+   ========================================================================== */
+.exam-sticky-header {
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  position: sticky;
+  top: 64px;
+  z-index: 40;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.exam-main-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 310px;
+  gap: 20px;
+  align-items: start;
+}
+
+.exam-question-panel {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.exam-question-text {
+  font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+  font-weight: 600;
+  line-height: 1.6;
+  color: #f8fafc;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.exam-option-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.18s ease;
+  user-select: none;
+  min-height: 52px;
+}
+
+.exam-palette-panel {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.exam-palette-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  max-height: 380px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+@media (max-width: 960px) {
+  .exam-sticky-header {
+    top: 56px;
+    padding: 10px 14px;
+    gap: 10px;
+  }
+  .exam-main-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .exam-question-panel {
+    padding: 18px 14px;
+    gap: 18px;
+  }
+  .exam-palette-grid {
+    grid-template-columns: repeat(10, 1fr);
+    max-height: 240px;
+  }
+  .exam-actions-bar {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .exam-actions-bar > button {
+    flex: 1 1 calc(50% - 6px);
+  }
+}
+
+@media (max-width: 580px) {
+  .exam-palette-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .exam-timer-chip {
+    font-size: 1rem !important;
+    padding: 6px 12px !important;
+  }
+}
+
+/* ==========================================================================
+   ADMIN DASHBOARD RESPONSIVENESS
+   ========================================================================== */
+.admin-header-panel {
+  padding: 22px 26px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.admin-header-title {
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  line-height: 1.25;
+}
+
+.admin-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: 14px;
+}
+
+.admin-controls-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.admin-filter-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.admin-search-container {
+  position: relative;
+  width: 280px;
+}
+
+@media (max-width: 768px) {
+  .admin-header-panel {
+    padding: 18px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .admin-header-actions {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+  }
+  .admin-header-actions > button {
+    flex: 1;
+  }
+  .admin-metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .admin-search-container {
+    width: 100%;
+  }
+  .admin-controls-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .admin-filter-tabs {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .admin-filter-tabs > button {
+    flex: 1 1 auto;
+    font-size: 0.78rem;
+    padding: 6px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-metrics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   MODAL MOBILE IMPROVEMENTS
+   ========================================================================== */
+@media (max-width: 640px) {
+  .modal-overlay {
+    padding: 12px;
+    align-items: center;
+  }
+  .modal-content {
+    padding: 20px 16px !important;
+    border-radius: var(--radius-lg);
+    max-height: 92vh;
+    overflow-y: auto;
+  }
+  .modal-grid-3 {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+  .modal-grid-4 {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+  .modal-actions {
+    flex-direction: column-reverse;
+    gap: 8px;
+  }
+  .modal-actions > button {
+    width: 100%;
+  }
+}
+
+/* Global Content Padding */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 12px 10px 36px;
+  }
+}
+

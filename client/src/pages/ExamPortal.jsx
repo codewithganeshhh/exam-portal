@@ -13,6 +13,7 @@ export const ExamPortal = ({ subject, onFinishExam, onCancel }) => {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
+  const [isMobilePaletteOpen, setIsMobilePaletteOpen] = useState(false);
 
   // Timer: 60 minutes = 3600 seconds
   const TOTAL_TIME = 3600;
@@ -132,6 +133,91 @@ export const ExamPortal = ({ subject, onFinishExam, onCancel }) => {
   const markedCount = markedForReview.size;
   const unattemptedCount = totalQuestions - answeredCount;
 
+  // Helper for rendering the question palette grid buttons
+  const renderPaletteGrid = (onSelectCallback) => (
+    <div className="exam-palette-grid">
+      {questions.map((q, idx) => {
+        const isCurrent = idx === currentIndex;
+        const isAnswered = answers[q.questionNumber] !== undefined;
+        const isMarked = markedForReview.has(q.questionNumber);
+
+        let bgColor = 'rgba(255, 255, 255, 0.05)';
+        let textColor = 'var(--text-secondary)';
+        let borderStyle = '1px solid var(--border-subtle)';
+
+        if (isMarked) {
+          bgColor = 'rgba(245, 158, 11, 0.25)';
+          textColor = '#facc15';
+          borderStyle = '1px solid rgba(245, 158, 11, 0.5)';
+        } else if (isAnswered) {
+          bgColor = 'rgba(16, 185, 129, 0.25)';
+          textColor = '#34d399';
+          borderStyle = '1px solid rgba(16, 185, 129, 0.5)';
+        }
+
+        if (isCurrent) {
+          borderStyle = '2px solid var(--primary)';
+          textColor = '#ffffff';
+        }
+
+        return (
+          <button
+            key={q.questionNumber}
+            onClick={() => {
+              setCurrentIndex(idx);
+              if (onSelectCallback) onSelectCallback();
+            }}
+            style={{
+              padding: '8px 0',
+              borderRadius: 'var(--radius-sm)',
+              background: bgColor,
+              border: borderStyle,
+              color: textColor,
+              fontSize: '0.85rem',
+              fontWeight: 700,
+              cursor: 'pointer',
+              transition: 'all 0.15s ease',
+              minHeight: '36px',
+            }}
+            title={`Question ${q.questionNumber} ${isAnswered ? '(Answered)' : '(Unanswered)'}`}
+          >
+            {q.questionNumber}
+          </button>
+        );
+      })}
+    </div>
+  );
+
+  // Helper for rendering palette legend
+  const renderPaletteLegend = () => (
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(2, 1fr)',
+      gap: '8px',
+      fontSize: '0.75rem',
+      padding: '12px',
+      background: 'rgba(15, 23, 42, 0.6)',
+      borderRadius: 'var(--radius-sm)',
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <span style={{ width: '12px', height: '12px', borderRadius: '3px', background: 'var(--emerald)' }} />
+        <span>Answered ({answeredCount})</span>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <span style={{ width: '12px', height: '12px', borderRadius: '3px', background: 'var(--amber)' }} />
+        <span>Marked ({markedCount})</span>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <span style={{ width: '12px', height: '12px', borderRadius: '3px', background: 'rgba(255,255,255,0.1)' }} />
+        <span>Unanswered ({unattemptedCount})</span>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <span style={{ width: '12px', height: '12px', borderRadius: '3px', border: '2px solid var(--primary)' }} />
+        <span>Current</span>
+      </div>
+    </div>
+  );
+
   if (loading) {
     return (
       <div style={{ textAlign: 'center', padding: '100px 20px' }}>
@@ -144,83 +230,81 @@ export const ExamPortal = ({ subject, onFinishExam, onCancel }) => {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', paddingBottom: '30px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', paddingBottom: '30px' }}>
       {/* Top Header Bar: Subject + Timer + Submit CTA */}
-      <div className="glass-panel" style={{
-        padding: '16px 24px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexWrap: 'wrap',
-        gap: '16px',
-        position: 'sticky',
-        top: '74px',
-        zIndex: 40,
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-          <span className={`badge badge-${subject.toLowerCase()}`} style={{ fontSize: '0.9rem', padding: '6px 14px' }}>
-            {subject} ASSESSMENT
+      <div className="glass-panel exam-sticky-header">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+          <span className={`badge badge-${subject.toLowerCase()}`} style={{ fontSize: '0.82rem', padding: '5px 12px' }}>
+            {subject}
           </span>
-          <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-            Question <strong>{currentIndex + 1}</strong> of <strong>{totalQuestions}</strong>
+          <span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
+            Q <strong>{currentIndex + 1}</strong> of <strong>{totalQuestions}</strong>
           </span>
         </div>
 
         {/* Countdown Timer */}
-        <div style={{
+        <div className="exam-timer-chip" style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '10px',
-          padding: '8px 18px',
+          gap: '8px',
+          padding: '6px 14px',
           borderRadius: 'var(--radius-full)',
           background: isTimeCritical ? 'rgba(244, 63, 94, 0.2)' : 'rgba(15, 23, 42, 0.8)',
           border: `1px solid ${isTimeCritical ? '#f43f5e' : 'var(--border-subtle)'}`,
           color: isTimeCritical ? '#fb7185' : 'var(--text-primary)',
         }}>
-          <Clock size={18} color={isTimeCritical ? '#fb7185' : '#6366f1'} />
+          <Clock size={16} color={isTimeCritical ? '#fb7185' : '#6366f1'} />
           <span style={{
             fontFamily: 'monospace',
-            fontSize: '1.2rem',
+            fontSize: '1.15rem',
             fontWeight: 800,
             letterSpacing: '0.05em',
           }}>
             {timeFormatted}
           </span>
-          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>REMAINING</span>
         </div>
 
-        {/* Submit Exam Button */}
-        <button
-          onClick={() => setIsSubmitModalOpen(true)}
-          className="btn btn-primary"
-          style={{ background: 'var(--grad-primary)', padding: '10px 24px' }}
-        >
-          <Send size={16} />
-          <span>Submit Exam</span>
-        </button>
+        {/* Actions Group (Palette Drawer Toggle on mobile + Submit) */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          {/* Mobile Palette Button */}
+          <button
+            onClick={() => setIsMobilePaletteOpen(true)}
+            className="btn btn-secondary btn-sm show-mobile"
+            title="Open Question Palette"
+          >
+            <HelpCircle size={16} />
+            <span>Palette ({answeredCount}/50)</span>
+          </button>
+
+          {/* Submit Exam Button */}
+          <button
+            onClick={() => setIsSubmitModalOpen(true)}
+            className="btn btn-primary btn-sm"
+            style={{ background: 'var(--grad-primary)', padding: '8px 16px', minHeight: '38px' }}
+          >
+            <Send size={15} />
+            <span>Submit</span>
+          </button>
+        </div>
       </div>
 
       {/* Main Examination Layout: Left (Question & Options) + Right (1-50 Palette) */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'minmax(0, 1fr) 320px',
-        gap: '24px',
-        alignItems: 'start',
-      }}>
+      <div className="exam-main-grid">
         {/* LEFT COLUMN: ACTIVE QUESTION CARD */}
-        <div className="glass-panel" style={{ padding: '32px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div className="glass-panel exam-question-panel">
           {/* Question Header */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
             <div style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '8px',
+              gap: '6px',
               color: 'var(--text-secondary)',
-              fontSize: '0.85rem',
+              fontSize: '0.82rem',
+              flexWrap: 'wrap',
             }}>
               <span>Question #{currentQ?.questionNumber}</span>
               <span>•</span>
-              <span style={{ color: '#c084fc' }}>Basic to Intermediate</span>
+              <span style={{ color: '#c084fc' }}>Intermediate</span>
               <span>•</span>
               <span>1 Mark</span>
             </div>
@@ -232,27 +316,21 @@ export const ExamPortal = ({ subject, onFinishExam, onCancel }) => {
                 borderColor: markedForReview.has(currentQ?.questionNumber) ? '#f59e0b' : 'var(--border-subtle)',
                 background: markedForReview.has(currentQ?.questionNumber) ? 'rgba(245, 158, 11, 0.2)' : 'transparent',
                 color: markedForReview.has(currentQ?.questionNumber) ? '#facc15' : 'var(--text-secondary)',
+                fontSize: '0.78rem',
               }}
             >
               <Bookmark size={14} />
-              <span>{markedForReview.has(currentQ?.questionNumber) ? 'Marked for Review' : 'Mark for Review'}</span>
+              <span>{markedForReview.has(currentQ?.questionNumber) ? 'Marked' : 'Mark for Review'}</span>
             </button>
           </div>
 
           {/* Question Statement */}
-          <div style={{
-            fontSize: '1.2rem',
-            fontWeight: 600,
-            lineHeight: 1.6,
-            color: '#f8fafc',
-            whiteSpace: 'pre-wrap',
-            wordBreak: 'break-word',
-          }}>
+          <div className="exam-question-text">
             {currentQ?.questionText}
           </div>
 
           {/* Options List */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {currentQ?.options.map((optionText, optIdx) => {
               const isSelected = answers[currentQ?.questionNumber] === optIdx;
               const optionLetters = ['A', 'B', 'C', 'D'];
@@ -261,22 +339,17 @@ export const ExamPortal = ({ subject, onFinishExam, onCancel }) => {
                 <div
                   key={optIdx}
                   onClick={() => handleSelectOption(optIdx)}
+                  className="exam-option-item"
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '16px',
-                    padding: '16px 20px',
-                    borderRadius: 'var(--radius-md)',
                     background: isSelected ? 'rgba(99, 102, 241, 0.15)' : 'rgba(15, 23, 42, 0.6)',
                     border: `1.5px solid ${isSelected ? 'var(--primary)' : 'var(--border-subtle)'}`,
                     boxShadow: isSelected ? '0 0 16px rgba(99, 102, 241, 0.25)' : 'none',
-                    cursor: 'pointer',
-                    transition: 'all 0.18s ease',
                   }}
                 >
                   <div style={{
                     width: '32px',
                     height: '32px',
+                    minWidth: '32px',
                     borderRadius: '8px',
                     display: 'flex',
                     alignItems: 'center',
@@ -285,14 +358,16 @@ export const ExamPortal = ({ subject, onFinishExam, onCancel }) => {
                     fontSize: '0.875rem',
                     background: isSelected ? 'var(--grad-primary)' : 'rgba(255, 255, 255, 0.06)',
                     color: isSelected ? '#ffffff' : 'var(--text-secondary)',
+                    flexShrink: 0,
                   }}>
                     {optionLetters[optIdx]}
                   </div>
                   <div style={{
-                    fontSize: '0.98rem',
+                    fontSize: '0.94rem',
                     color: isSelected ? '#ffffff' : 'var(--text-primary)',
                     flex: 1,
                     lineHeight: 1.5,
+                    wordBreak: 'break-word',
                   }}>
                     {optionText}
                   </div>
@@ -302,7 +377,7 @@ export const ExamPortal = ({ subject, onFinishExam, onCancel }) => {
           </div>
 
           {/* Action Buttons: Prev, Clear, Next */}
-          <div style={{
+          <div className="exam-actions-bar" style={{
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -314,6 +389,7 @@ export const ExamPortal = ({ subject, onFinishExam, onCancel }) => {
               onClick={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
               disabled={currentIndex === 0}
               className="btn btn-secondary"
+              style={{ minHeight: '42px' }}
             >
               <ArrowLeft size={16} />
               <span>Previous</span>
@@ -323,6 +399,7 @@ export const ExamPortal = ({ subject, onFinishExam, onCancel }) => {
               <button
                 onClick={handleClearAnswer}
                 className="btn btn-outline btn-sm"
+                style={{ minHeight: '42px' }}
               >
                 <RotateCcw size={14} />
                 <span>Clear Selection</span>
@@ -333,6 +410,7 @@ export const ExamPortal = ({ subject, onFinishExam, onCancel }) => {
               onClick={() => setCurrentIndex((prev) => Math.min(totalQuestions - 1, prev + 1))}
               disabled={currentIndex === totalQuestions - 1}
               className="btn btn-secondary"
+              style={{ minHeight: '42px' }}
             >
               <span>Next</span>
               <ArrowRight size={16} />
@@ -341,102 +419,24 @@ export const ExamPortal = ({ subject, onFinishExam, onCancel }) => {
         </div>
 
         {/* RIGHT COLUMN: QUESTION PALETTE (1 to 50) */}
-        <div className="glass-panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <div className="glass-panel exam-palette-panel">
           <div>
-            <h3 style={{ fontSize: '1.1rem', marginBottom: '8px' }}>Question Palette</h3>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
-              Click any number to jump directly to that question.
+            <h3 style={{ fontSize: '1.05rem', marginBottom: '6px' }}>Question Palette (1-50)</h3>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.78rem' }}>
+              Tap any number to jump directly to that question.
             </p>
           </div>
 
           {/* Palette Legend */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '8px',
-            fontSize: '0.75rem',
-            padding: '12px',
-            background: 'rgba(15, 23, 42, 0.6)',
-            borderRadius: 'var(--radius-sm)',
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{ width: '12px', height: '12px', borderRadius: '3px', background: 'var(--emerald)' }} />
-              <span>Answered ({answeredCount})</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{ width: '12px', height: '12px', borderRadius: '3px', background: 'var(--amber)' }} />
-              <span>Marked ({markedCount})</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{ width: '12px', height: '12px', borderRadius: '3px', background: 'rgba(255,255,255,0.1)' }} />
-              <span>Unanswered ({unattemptedCount})</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{ width: '12px', height: '12px', borderRadius: '3px', border: '2px solid var(--primary)' }} />
-              <span>Current</span>
-            </div>
-          </div>
+          {renderPaletteLegend()}
 
           {/* 1 - 50 Grid */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(5, 1fr)',
-            gap: '8px',
-            maxHeight: '380px',
-            overflowY: 'auto',
-            paddingRight: '4px',
-          }}>
-            {questions.map((q, idx) => {
-              const isCurrent = idx === currentIndex;
-              const isAnswered = answers[q.questionNumber] !== undefined;
-              const isMarked = markedForReview.has(q.questionNumber);
-
-              let bgColor = 'rgba(255, 255, 255, 0.05)';
-              let textColor = 'var(--text-secondary)';
-              let borderStyle = '1px solid var(--border-subtle)';
-
-              if (isMarked) {
-                bgColor = 'rgba(245, 158, 11, 0.25)';
-                textColor = '#facc15';
-                borderStyle = '1px solid rgba(245, 158, 11, 0.5)';
-              } else if (isAnswered) {
-                bgColor = 'rgba(16, 185, 129, 0.25)';
-                textColor = '#34d399';
-                borderStyle = '1px solid rgba(16, 185, 129, 0.5)';
-              }
-
-              if (isCurrent) {
-                borderStyle = '2px solid var(--primary)';
-                textColor = '#ffffff';
-              }
-
-              return (
-                <button
-                  key={q.questionNumber}
-                  onClick={() => setCurrentIndex(idx)}
-                  style={{
-                    padding: '8px 0',
-                    borderRadius: 'var(--radius-sm)',
-                    background: bgColor,
-                    border: borderStyle,
-                    color: textColor,
-                    fontSize: '0.85rem',
-                    fontWeight: 700,
-                    cursor: 'pointer',
-                    transition: 'all 0.15s ease',
-                  }}
-                  title={`Question ${q.questionNumber} ${isAnswered ? '(Answered)' : '(Unanswered)'}`}
-                >
-                  {q.questionNumber}
-                </button>
-              );
-            })}
-          </div>
+          {renderPaletteGrid()}
 
           <button
             onClick={() => setIsSubmitModalOpen(true)}
             className="btn btn-primary"
-            style={{ width: '100%', marginTop: '8px' }}
+            style={{ width: '100%', marginTop: '8px', minHeight: '44px' }}
           >
             <Send size={16} />
             <span>Finish & Submit Exam</span>
@@ -444,14 +444,53 @@ export const ExamPortal = ({ subject, onFinishExam, onCancel }) => {
         </div>
       </div>
 
+      {/* MOBILE QUESTION PALETTE MODAL / DRAWER */}
+      {isMobilePaletteOpen && (
+        <div className="modal-overlay" onClick={() => setIsMobilePaletteOpen(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '480px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+              <div>
+                <h3 style={{ fontSize: '1.15rem' }}>Question Navigator</h3>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                  {answeredCount} Answered • {markedCount} Marked • {unattemptedCount} Left
+                </div>
+              </div>
+              <button
+                onClick={() => setIsMobilePaletteOpen(false)}
+                className="btn btn-outline btn-sm"
+                style={{ borderRadius: '50%', width: '32px', height: '32px', padding: 0 }}
+              >
+                ✕
+              </button>
+            </div>
+
+            <div style={{ marginBottom: '14px' }}>
+              {renderPaletteLegend()}
+            </div>
+
+            {renderPaletteGrid(() => setIsMobilePaletteOpen(false))}
+
+            <div style={{ marginTop: '16px' }}>
+              <button
+                onClick={() => setIsMobilePaletteOpen(false)}
+                className="btn btn-secondary"
+                style={{ width: '100%', minHeight: '42px' }}
+              >
+                Close Navigator
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* CONFIRMATION SUBMIT MODAL */}
       {isSubmitModalOpen && (
         <div className="modal-overlay" onClick={() => setIsSubmitModalOpen(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div style={{ textAlign: 'center', marginBottom: '20px' }}>
               <div style={{
-                width: '56px',
-                height: '56px',
+                width: '52px',
+                height: '52px',
                 borderRadius: '50%',
                 background: 'rgba(99, 102, 241, 0.15)',
                 display: 'inline-flex',
@@ -459,55 +498,56 @@ export const ExamPortal = ({ subject, onFinishExam, onCancel }) => {
                 justifyContent: 'center',
                 marginBottom: '12px',
               }}>
-                <Send size={28} color="#6366f1" />
+                <Send size={26} color="#6366f1" />
               </div>
-              <h3 style={{ fontSize: '1.4rem', marginBottom: '6px' }}>
+              <h3 style={{ fontSize: '1.3rem', marginBottom: '6px' }}>
                 Ready to Submit Your Exam?
               </h3>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-                Please review your submission status below before confirming. Once submitted, you cannot change your answers.
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
+                Please review your progress before confirming. Once submitted, your score will be calculated immediately.
               </p>
             </div>
 
             {/* Submission Breakdown */}
-            <div style={{
+            <div className="modal-grid-3" style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '12px',
-              padding: '16px',
+              gap: '10px',
+              padding: '14px',
               background: 'rgba(15, 23, 42, 0.8)',
               borderRadius: 'var(--radius-md)',
               border: '1px solid var(--border-subtle)',
-              marginBottom: '20px',
+              marginBottom: '18px',
               textAlign: 'center',
             }}>
               <div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Total Questions</div>
-                <div style={{ fontSize: '1.25rem', fontWeight: 800 }}>{totalQuestions}</div>
+                <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Total Questions</div>
+                <div style={{ fontSize: '1.2rem', fontWeight: 800 }}>{totalQuestions}</div>
               </div>
               <div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--emerald)' }}>Answered</div>
-                <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--emerald)' }}>{answeredCount}</div>
+                <div style={{ fontSize: '0.72rem', color: 'var(--emerald)' }}>Answered</div>
+                <div style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--emerald)' }}>{answeredCount}</div>
               </div>
               <div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--rose)' }}>Unanswered</div>
-                <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--rose)' }}>{unattemptedCount}</div>
+                <div style={{ fontSize: '0.72rem', color: 'var(--rose)' }}>Unanswered</div>
+                <div style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--rose)' }}>{unattemptedCount}</div>
               </div>
             </div>
 
             {unattemptedCount > 0 && (
-              <div className="alert alert-error" style={{ fontSize: '0.8rem', marginBottom: '20px' }}>
-                <AlertTriangle size={18} />
+              <div className="alert alert-error" style={{ fontSize: '0.8rem', marginBottom: '18px' }}>
+                <AlertTriangle size={18} style={{ flexShrink: 0 }} />
                 <span>You still have {unattemptedCount} unattempted questions!</span>
               </div>
             )}
 
-            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+            <div className="modal-actions" style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
               <button
                 type="button"
                 onClick={() => setIsSubmitModalOpen(false)}
                 className="btn btn-secondary"
                 disabled={submitting}
+                style={{ minHeight: '44px' }}
               >
                 Return to Exam
               </button>
@@ -516,6 +556,7 @@ export const ExamPortal = ({ subject, onFinishExam, onCancel }) => {
                 onClick={performSubmit}
                 disabled={submitting}
                 className="btn btn-primary"
+                style={{ minHeight: '44px' }}
               >
                 {submitting ? 'Submitting & Evaluating...' : 'Confirm Submission'}
               </button>
@@ -526,3 +567,4 @@ export const ExamPortal = ({ subject, onFinishExam, onCancel }) => {
     </div>
   );
 };
+

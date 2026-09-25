@@ -49,12 +49,11 @@ export const LoginPage = () => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: '24px 16px',
+      padding: '16px 12px',
     }}>
-      <div className="glass-panel" style={{
+      <div className="glass-panel glass-panel-responsive" style={{
         width: '100%',
         maxWidth: '460px',
-        padding: '36px 32px',
         position: 'relative',
         overflow: 'hidden',
       }}>
@@ -69,24 +68,24 @@ export const LoginPage = () => {
         }} />
 
         {/* Portal Header */}
-        <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '24px' }}>
           <div style={{
-            width: '56px',
-            height: '56px',
+            width: '52px',
+            height: '52px',
             borderRadius: '16px',
             background: 'var(--grad-primary)',
             display: 'inline-flex',
             alignItems: 'center',
             justifyContent: 'center',
-            marginBottom: '16px',
+            marginBottom: '14px',
             boxShadow: '0 8px 24px var(--primary-glow)',
           }}>
-            <GraduationCap size={32} color="#ffffff" />
+            <GraduationCap size={28} color="#ffffff" />
           </div>
-          <h1 style={{ fontSize: '1.75rem', marginBottom: '8px' }}>
+          <h1 style={{ fontSize: 'clamp(1.35rem, 4vw, 1.75rem)', marginBottom: '8px' }}>
             Exam Portal Sign In
           </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.5 }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: 1.5 }}>
             Single unified login for both <span style={{ color: '#c084fc', fontWeight: 600 }}>Admins</span> and <span style={{ color: '#22d3ee', fontWeight: 600 }}>Students</span>. You will be automatically routed according to your role.
           </p>
         </div>

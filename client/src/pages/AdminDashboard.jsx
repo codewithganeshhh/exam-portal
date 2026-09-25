@@ -126,41 +126,37 @@ export const AdminDashboard = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       {/* Top Banner */}
-      <div className="glass-panel" style={{
-        padding: '24px 28px',
-        display: 'flex',
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        gap: '16px',
+      <div className="glass-panel admin-header-panel" style={{
         background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%)',
       }}>
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px', flexWrap: 'wrap' }}>
             <span className="badge badge-admin">Administrator Dashboard</span>
           </div>
-          <h1 style={{ fontSize: '1.75rem' }}>
+          <h1 className="admin-header-title">
             Exam Management & Live Scoreboard
           </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: '4px' }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginTop: '4px' }}>
             Monitor student submissions, review answer sheets, and provision new student accounts.
           </p>
         </div>
 
-        <div style={{ display: 'flex', gap: '12px' }}>
+        <div className="admin-header-actions" style={{ display: 'flex', gap: '10px' }}>
           <button 
             onClick={() => setIsAddModalOpen(true)}
             className="btn btn-primary"
+            style={{ minHeight: '42px' }}
           >
             <UserPlus size={18} />
-            <span>Add New Student</span>
+            <span>Add Student</span>
           </button>
           <button 
             onClick={fetchData}
             className="btn btn-secondary"
             title="Refresh data"
+            style={{ minHeight: '42px' }}
           >
             <RefreshCw size={18} className={loading ? 'spin' : ''} />
             <span>Refresh</span>
@@ -169,96 +165,92 @@ export const AdminDashboard = () => {
       </div>
 
       {/* Analytics Metric Cards */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-        gap: '16px',
-      }}>
-        <div className="glass-panel" style={{ padding: '20px' }}>
+      <div className="admin-metrics-grid">
+        <div className="glass-panel" style={{ padding: '16px 18px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <div>
-              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase' }}>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase' }}>
                 Total Students
               </div>
-              <div style={{ fontSize: '2rem', fontWeight: 800, color: '#f8fafc', marginTop: '4px' }}>
+              <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#f8fafc', marginTop: '2px' }}>
                 {stats?.totalStudents ?? students.length}
               </div>
             </div>
-            <div style={{ padding: '10px', background: 'rgba(6, 182, 212, 0.15)', borderRadius: '12px' }}>
-              <Users size={22} color="#06b6d4" />
+            <div style={{ padding: '8px', background: 'rgba(6, 182, 212, 0.15)', borderRadius: '10px' }}>
+              <Users size={20} color="#06b6d4" />
             </div>
           </div>
-          <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '8px' }}>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '6px' }}>
             Active student accounts registered
           </div>
         </div>
 
-        <div className="glass-panel" style={{ padding: '20px' }}>
+        <div className="glass-panel" style={{ padding: '16px 18px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <div>
-              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase' }}>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase' }}>
                 Total Exams Taken
               </div>
-              <div style={{ fontSize: '2rem', fontWeight: 800, color: '#f8fafc', marginTop: '4px' }}>
+              <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#f8fafc', marginTop: '2px' }}>
                 {stats?.totalExams ?? results.length}
               </div>
             </div>
-            <div style={{ padding: '10px', background: 'rgba(99, 102, 241, 0.15)', borderRadius: '12px' }}>
-              <Award size={22} color="#6366f1" />
+            <div style={{ padding: '8px', background: 'rgba(99, 102, 241, 0.15)', borderRadius: '10px' }}>
+              <Award size={20} color="#6366f1" />
             </div>
           </div>
-          <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '8px' }}>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '6px' }}>
             Total completed submissions across HTML, CSS, JS
           </div>
         </div>
 
-        <div className="glass-panel" style={{ padding: '20px' }}>
+        <div className="glass-panel" style={{ padding: '16px 18px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <div>
-              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase' }}>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase' }}>
                 HTML Exam Avg
               </div>
-              <div style={{ fontSize: '2rem', fontWeight: 800, color: '#fb923c', marginTop: '4px' }}>
+              <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#fb923c', marginTop: '2px' }}>
                 {stats?.subjectStats?.HTML ? `${stats.subjectStats.HTML.avgScore} / 50` : '0 / 50'}
               </div>
             </div>
             <span className="badge badge-html">HTML</span>
           </div>
-          <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '8px' }}>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '6px' }}>
             {stats?.subjectStats?.HTML?.count ?? 0} students completed
           </div>
         </div>
 
-        <div className="glass-panel" style={{ padding: '20px' }}>
+        <div className="glass-panel" style={{ padding: '16px 18px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <div>
-              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase' }}>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase' }}>
                 CSS Exam Avg
               </div>
-              <div style={{ fontSize: '2rem', fontWeight: 800, color: '#60a5fa', marginTop: '4px' }}>
+              <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#60a5fa', marginTop: '2px' }}>
                 {stats?.subjectStats?.CSS ? `${stats.subjectStats.CSS.avgScore} / 50` : '0 / 50'}
               </div>
             </div>
             <span className="badge badge-css">CSS</span>
           </div>
-          <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '8px' }}>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '6px' }}>
             {stats?.subjectStats?.CSS?.count ?? 0} students completed
           </div>
         </div>
 
-        <div className="glass-panel" style={{ padding: '20px' }}>
+        <div className="glass-panel" style={{ padding: '16px 18px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <div>
-              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase' }}>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase' }}>
                 JS Exam Avg
               </div>
-              <div style={{ fontSize: '2rem', fontWeight: 800, color: '#facc15', marginTop: '4px' }}>
+              <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#facc15', marginTop: '2px' }}>
                 {stats?.subjectStats?.JS ? `${stats.subjectStats.JS.avgScore} / 50` : '0 / 50'}
               </div>
             </div>
             <span className="badge badge-js">JS</span>
           </div>
-          <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '8px' }}>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '6px' }}>
             {stats?.subjectStats?.JS?.count ?? 0} students completed
           </div>
         </div>
@@ -267,13 +259,15 @@ export const AdminDashboard = () => {
       {/* Tabs Navigation */}
       <div style={{
         display: 'flex',
-        gap: '12px',
+        gap: '8px',
         borderBottom: '1px solid var(--border-subtle)',
         paddingBottom: '12px',
+        flexWrap: 'wrap',
       }}>
         <button
           onClick={() => setActiveTab('results')}
           className={`btn ${activeTab === 'results' ? 'btn-primary' : 'btn-outline'}`}
+          style={{ flex: '1 1 auto', minHeight: '42px' }}
         >
           <Award size={18} />
           <span>Student Exam Scores ({filteredResults.length})</span>
@@ -282,6 +276,7 @@ export const AdminDashboard = () => {
         <button
           onClick={() => setActiveTab('students')}
           className={`btn ${activeTab === 'students' ? 'btn-primary' : 'btn-outline'}`}
+          style={{ flex: '1 1 auto', minHeight: '42px' }}
         >
           <Users size={18} />
           <span>Manage Students ({students.length})</span>
@@ -290,39 +285,33 @@ export const AdminDashboard = () => {
 
       {/* TAB 1: EXAM SCORES & RESULTS */}
       {activeTab === 'results' && (
-        <div className="glass-panel" style={{ padding: '24px' }}>
+        <div className="glass-panel glass-panel-responsive">
           {/* Controls: Search & Subject Filters */}
-          <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '16px',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginBottom: '20px',
-          }}>
+          <div className="admin-controls-bar">
             {/* Subject Filters */}
-            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-              <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginRight: '4px' }}>
-                Filter Exam:
+            <div className="admin-filter-tabs">
+              <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginRight: '4px' }}>
+                Filter:
               </span>
               {['ALL', 'HTML', 'CSS', 'JS'].map((sub) => (
                 <button
                   key={sub}
                   onClick={() => setSelectedSubject(sub)}
                   className={`btn btn-sm ${selectedSubject === sub ? 'btn-primary' : 'btn-secondary'}`}
+                  style={{ minHeight: '36px' }}
                 >
-                  {sub === 'ALL' ? 'All Subjects' : `${sub} (50 Qs)`}
+                  {sub === 'ALL' ? 'All' : sub}
                 </button>
               ))}
             </div>
 
             {/* Search Input */}
-            <div style={{ position: 'relative', width: '280px' }}>
+            <div className="admin-search-container">
               <Search size={16} color="var(--text-muted)" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
               <input
                 type="text"
                 className="form-input"
-                style={{ paddingLeft: '36px', paddingY: '8px', fontSize: '0.875rem' }}
+                style={{ paddingLeft: '36px', fontSize: '0.875rem', minHeight: '40px' }}
                 placeholder="Search student or username..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -340,104 +329,179 @@ export const AdminDashboard = () => {
               <Award size={48} color="var(--text-muted)" style={{ margin: '0 auto 12px', opacity: 0.5 }} />
               <h3 style={{ fontSize: '1.2rem', marginBottom: '6px' }}>No Exam Submissions Found</h3>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-                {searchQuery ? 'No results matched your search.' : 'Once students complete HTML, CSS, or JS exams, their scores and answer breakdowns will appear here.'}
+                {searchQuery ? 'No results matched your search.' : 'Once students complete HTML, CSS, or JS exams, their scores will appear here.'}
               </p>
             </div>
           ) : (
-            <div className="table-container">
-              <table className="data-table">
-                <thead>
-                  <tr>
-                    <th>Student</th>
-                    <th>Username</th>
-                    <th>Subject</th>
-                    <th>Score</th>
-                    <th>Percentage</th>
-                    <th>Status</th>
-                    <th>Time Spent</th>
-                    <th>Submitted On</th>
-                    <th style={{ textAlign: 'center' }}>Details</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredResults.map((r) => (
-                    <tr key={r._id}>
-                      <td style={{ fontWeight: 600 }}>{r.studentName}</td>
-                      <td style={{ color: 'var(--text-muted)' }}>@{r.studentUsername}</td>
-                      <td>
+            <>
+              {/* Desktop / Tablet Table View */}
+              <div className="table-container hide-mobile">
+                <table className="data-table">
+                  <thead>
+                    <tr>
+                      <th>Student</th>
+                      <th>Username</th>
+                      <th>Subject</th>
+                      <th>Score</th>
+                      <th>Percentage</th>
+                      <th>Status</th>
+                      <th>Time Spent</th>
+                      <th>Submitted On</th>
+                      <th style={{ textAlign: 'center' }}>Details</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredResults.map((r) => (
+                      <tr key={r._id}>
+                        <td style={{ fontWeight: 600 }}>{r.studentName}</td>
+                        <td style={{ color: 'var(--text-muted)' }}>@{r.studentUsername}</td>
+                        <td>
+                          <span className={`badge badge-${r.subject.toLowerCase()}`}>
+                            {r.subject}
+                          </span>
+                        </td>
+                        <td style={{ fontWeight: 700, fontSize: '1rem' }}>
+                          {r.score} <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 400 }}>/ {r.totalQuestions}</span>
+                        </td>
+                        <td>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <span style={{ fontWeight: 600 }}>{r.percentage}%</span>
+                            <div style={{
+                              width: '50px',
+                              height: '6px',
+                              background: 'rgba(255, 255, 255, 0.1)',
+                              borderRadius: '3px',
+                              overflow: 'hidden',
+                            }}>
+                              <div style={{
+                                width: `${r.percentage}%`,
+                                height: '100%',
+                                background: r.passed ? 'var(--emerald)' : 'var(--rose)',
+                              }} />
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <span className={`badge ${r.passed ? 'badge-passed' : 'badge-failed'}`}>
+                            {r.passed ? 'Passed' : 'Failed'}
+                          </span>
+                        </td>
+                        <td>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
+                            <Clock size={14} />
+                            <span>{formatTime(r.timeSpentSeconds)}</span>
+                          </div>
+                        </td>
+                        <td style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>
+                          {formatDate(r.submittedAt)}
+                        </td>
+                        <td style={{ textAlign: 'center' }}>
+                          <button
+                            onClick={() => setSelectedResult(r)}
+                            className="btn btn-secondary btn-sm"
+                            title="View detailed question breakdown"
+                          >
+                            <Eye size={14} />
+                            <span>Review</span>
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Mobile Native Card View */}
+              <div className="show-mobile">
+                {filteredResults.map((r) => (
+                  <div key={r._id} className="mobile-history-card">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
+                      <div>
+                        <div style={{ fontWeight: 700, fontSize: '0.98rem', color: 'var(--text-primary)' }}>
+                          {r.studentName}
+                        </div>
+                        <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                          @{r.studentUsername}
+                        </div>
+                      </div>
+                      <div style={{ display: 'flex', gap: '6px' }}>
                         <span className={`badge badge-${r.subject.toLowerCase()}`}>
                           {r.subject}
                         </span>
-                      </td>
-                      <td style={{ fontWeight: 700, fontSize: '1rem' }}>
-                        {r.score} <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 400 }}>/ {r.totalQuestions}</span>
-                      </td>
-                      <td>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <span style={{ fontWeight: 600 }}>{r.percentage}%</span>
-                          <div style={{
-                            width: '50px',
-                            height: '6px',
-                            background: 'rgba(255, 255, 255, 0.1)',
-                            borderRadius: '3px',
-                            overflow: 'hidden',
-                          }}>
-                            <div style={{
-                              width: `${r.percentage}%`,
-                              height: '100%',
-                              background: r.passed ? 'var(--emerald)' : 'var(--rose)',
-                            }} />
-                          </div>
-                        </div>
-                      </td>
-                      <td>
                         <span className={`badge ${r.passed ? 'badge-passed' : 'badge-failed'}`}>
                           {r.passed ? 'Passed' : 'Failed'}
                         </span>
-                      </td>
-                      <td>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
-                          <Clock size={14} />
-                          <span>{formatTime(r.timeSpentSeconds)}</span>
-                        </div>
-                      </td>
-                      <td style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>
-                        {formatDate(r.submittedAt)}
-                      </td>
-                      <td style={{ textAlign: 'center' }}>
-                        <button
-                          onClick={() => setSelectedResult(r)}
-                          className="btn btn-secondary btn-sm"
-                          title="View detailed question breakdown"
-                        >
-                          <Eye size={14} />
-                          <span>Review</span>
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                      </div>
+                    </div>
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginTop: '4px' }}>
+                      <div>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Score: </span>
+                        <strong style={{ fontSize: '1.2rem', color: r.passed ? '#34d399' : '#fb7185' }}>
+                          {r.score}
+                        </strong>
+                        <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}> / {r.totalQuestions}</span>
+                      </div>
+                      <div style={{ fontWeight: 700, fontSize: '1rem' }}>
+                        {r.percentage}%
+                      </div>
+                    </div>
+
+                    <div style={{ width: '100%', height: '5px', background: 'rgba(255,255,255,0.08)', borderRadius: '3px', overflow: 'hidden' }}>
+                      <div style={{
+                        width: `${r.percentage}%`,
+                        height: '100%',
+                        background: r.passed ? 'var(--emerald)' : 'var(--rose)',
+                        borderRadius: '3px',
+                      }} />
+                    </div>
+
+                    <div style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      fontSize: '0.78rem',
+                      color: 'var(--text-secondary)',
+                      paddingTop: '8px',
+                      borderTop: '1px solid rgba(255,255,255,0.04)',
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <Clock size={13} />
+                        <span>{formatTime(r.timeSpentSeconds)}</span>
+                      </div>
+                      <button
+                        onClick={() => setSelectedResult(r)}
+                        className="btn btn-secondary btn-sm"
+                        style={{ padding: '5px 12px', minHeight: '34px' }}
+                      >
+                        <Eye size={13} />
+                        <span>Review</span>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
           )}
         </div>
       )}
 
       {/* TAB 2: MANAGE STUDENTS */}
       {activeTab === 'students' && (
-        <div className="glass-panel" style={{ padding: '24px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <div className="glass-panel glass-panel-responsive">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
             <div>
-              <h2 style={{ fontSize: '1.25rem' }}>Registered Student Accounts</h2>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginTop: '2px' }}>
+              <h2 style={{ fontSize: '1.2rem' }}>Registered Student Accounts</h2>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', marginTop: '2px' }}>
                 Students use these credentials to log in and attempt exams.
               </p>
             </div>
             <button 
               onClick={() => setIsAddModalOpen(true)}
-              className="btn btn-primary"
+              className="btn btn-primary btn-sm"
+              style={{ minHeight: '38px' }}
             >
-              <UserPlus size={18} />
+              <UserPlus size={16} />
               <span>Create Student</span>
             </button>
           </div>
@@ -448,52 +512,96 @@ export const AdminDashboard = () => {
               <p style={{ color: 'var(--text-secondary)' }}>No students registered yet. Click "Create Student" to add one.</p>
             </div>
           ) : (
-            <div className="table-container">
-              <table className="data-table">
-                <thead>
-                  <tr>
-                    <th>Full Name</th>
-                    <th>Username</th>
-                    <th>Role</th>
-                    <th>Exams Completed</th>
-                    <th>Registered Date</th>
-                    <th style={{ textAlign: 'right' }}>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {students.map((st) => (
-                    <tr key={st._id}>
-                      <td style={{ fontWeight: 600 }}>{st.name}</td>
-                      <td>
-                        <code style={{ background: 'rgba(255,255,255,0.06)', padding: '2px 8px', borderRadius: '4px', color: '#22d3ee' }}>
-                          @{st.username}
-                        </code>
-                      </td>
-                      <td>
-                        <span className="badge badge-student">Student</span>
-                      </td>
-                      <td>
-                        <span style={{ fontWeight: 600 }}>{st.attemptsCount ?? 0}</span>
-                        <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginLeft: '4px' }}>exams</span>
-                      </td>
-                      <td style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>
-                        {formatDate(st.createdAt)}
-                      </td>
-                      <td style={{ textAlign: 'right' }}>
-                        <button
-                          onClick={() => handleDeleteStudent(st._id, st.name)}
-                          className="btn btn-danger btn-sm"
-                          title="Delete Student"
-                        >
-                          <Trash2 size={14} />
-                          <span>Delete</span>
-                        </button>
-                      </td>
+            <>
+              {/* Desktop / Tablet Table View */}
+              <div className="table-container hide-mobile">
+                <table className="data-table">
+                  <thead>
+                    <tr>
+                      <th>Full Name</th>
+                      <th>Username</th>
+                      <th>Role</th>
+                      <th>Exams Completed</th>
+                      <th>Registered Date</th>
+                      <th style={{ textAlign: 'right' }}>Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {students.map((st) => (
+                      <tr key={st._id}>
+                        <td style={{ fontWeight: 600 }}>{st.name}</td>
+                        <td>
+                          <code style={{ background: 'rgba(255,255,255,0.06)', padding: '2px 8px', borderRadius: '4px', color: '#22d3ee' }}>
+                            @{st.username}
+                          </code>
+                        </td>
+                        <td>
+                          <span className="badge badge-student">Student</span>
+                        </td>
+                        <td>
+                          <span style={{ fontWeight: 600 }}>{st.attemptsCount ?? 0}</span>
+                          <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginLeft: '4px' }}>exams</span>
+                        </td>
+                        <td style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>
+                          {formatDate(st.createdAt)}
+                        </td>
+                        <td style={{ textAlign: 'right' }}>
+                          <button
+                            onClick={() => handleDeleteStudent(st._id, st.name)}
+                            className="btn btn-danger btn-sm"
+                            title="Delete Student"
+                          >
+                            <Trash2 size={14} />
+                            <span>Delete</span>
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Mobile Native Card View */}
+              <div className="show-mobile">
+                {students.map((st) => (
+                  <div key={st._id} className="mobile-history-card">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div style={{ fontWeight: 700, fontSize: '0.98rem' }}>{st.name}</div>
+                      <span className="badge badge-student">Student</span>
+                    </div>
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.82rem' }}>
+                      <code style={{ background: 'rgba(255,255,255,0.06)', padding: '3px 8px', borderRadius: '4px', color: '#22d3ee' }}>
+                        @{st.username}
+                      </code>
+                      <span style={{ color: 'var(--text-muted)' }}>
+                        <strong style={{ color: 'var(--text-primary)' }}>{st.attemptsCount ?? 0}</strong> exams completed
+                      </span>
+                    </div>
+
+                    <div style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      fontSize: '0.78rem',
+                      color: 'var(--text-secondary)',
+                      paddingTop: '8px',
+                      borderTop: '1px solid rgba(255,255,255,0.04)',
+                    }}>
+                      <span>Registered: {formatDate(st.createdAt)}</span>
+                      <button
+                        onClick={() => handleDeleteStudent(st._id, st.name)}
+                        className="btn btn-danger btn-sm"
+                        style={{ padding: '4px 10px', minHeight: '32px' }}
+                      >
+                        <Trash2 size={13} />
+                        <span>Delete</span>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
           )}
         </div>
       )}
@@ -502,14 +610,14 @@ export const AdminDashboard = () => {
       {isAddModalOpen && (
         <div className="modal-overlay" onClick={() => setIsAddModalOpen(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <div style={{ padding: '8px', background: 'rgba(99, 102, 241, 0.15)', borderRadius: '10px' }}>
                   <UserPlus size={20} color="#6366f1" />
                 </div>
                 <div>
-                  <h3 style={{ fontSize: '1.25rem' }}>Add New Student</h3>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                  <h3 style={{ fontSize: '1.2rem' }}>Add New Student</h3>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
                     Provide credentials for the student to log in
                   </div>
                 </div>
@@ -526,7 +634,7 @@ export const AdminDashboard = () => {
             {addMessage.text && (
               <div className={`alert ${addMessage.type === 'success' ? 'alert-success' : 'alert-error'}`}>
                 {addMessage.type === 'success' ? <CheckCircle2 size={18} /> : <XCircle size={18} />}
-                <span style={{ wordBreak: 'break-word' }}>{addMessage.text}</span>
+                <span style={{ wordBreak: 'break-word', fontSize: '0.82rem' }}>{addMessage.text}</span>
               </div>
             )}
 
@@ -573,11 +681,12 @@ export const AdminDashboard = () => {
                 </span>
               </div>
 
-              <div style={{ display: 'flex', gap: '10px', marginTop: '24px', justifyContent: 'flex-end' }}>
+              <div className="modal-actions" style={{ display: 'flex', gap: '10px', marginTop: '20px', justifyContent: 'flex-end' }}>
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
                   className="btn btn-secondary"
+                  style={{ minHeight: '44px' }}
                 >
                   Close
                 </button>
@@ -585,6 +694,7 @@ export const AdminDashboard = () => {
                   type="submit"
                   disabled={addLoading}
                   className="btn btn-primary"
+                  style={{ minHeight: '44px' }}
                 >
                   {addLoading ? 'Creating...' : 'Save & Create Student'}
                 </button>
@@ -600,9 +710,9 @@ export const AdminDashboard = () => {
           <div 
             className="modal-content" 
             onClick={(e) => e.stopPropagation()}
-            style={{ maxWidth: '780px', maxHeight: '85vh', display: 'flex', flexDirection: 'column' }}
+            style={{ maxWidth: '780px', maxHeight: '90vh', display: 'flex', flexDirection: 'column' }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <span className={`badge badge-${selectedResult.subject.toLowerCase()}`}>
@@ -612,7 +722,7 @@ export const AdminDashboard = () => {
                     {selectedResult.passed ? 'Passed' : 'Failed'}
                   </span>
                 </div>
-                <h3 style={{ fontSize: '1.3rem', marginTop: '6px' }}>
+                <h3 style={{ fontSize: '1.25rem', marginTop: '4px' }}>
                   {selectedResult.studentName} (@{selectedResult.studentUsername})
                 </h3>
               </div>
@@ -626,11 +736,11 @@ export const AdminDashboard = () => {
             </div>
 
             {/* Score Summary Row */}
-            <div style={{
+            <div className="modal-grid-4" style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(4, 1fr)',
-              gap: '12px',
-              padding: '16px',
+              gap: '10px',
+              padding: '14px',
               background: 'rgba(15, 23, 42, 0.6)',
               borderRadius: 'var(--radius-md)',
               border: '1px solid var(--border-subtle)',
@@ -638,44 +748,44 @@ export const AdminDashboard = () => {
               textAlign: 'center',
             }}>
               <div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Score</div>
-                <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Score</div>
+                <div style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-primary)' }}>
                   {selectedResult.score} / {selectedResult.totalQuestions}
                 </div>
               </div>
               <div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Percentage</div>
-                <div style={{ fontSize: '1.25rem', fontWeight: 800, color: selectedResult.passed ? '#34d399' : '#fb7185' }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Percentage</div>
+                <div style={{ fontSize: '1.2rem', fontWeight: 800, color: selectedResult.passed ? '#34d399' : '#fb7185' }}>
                   {selectedResult.percentage}%
                 </div>
               </div>
               <div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Correct / Wrong</div>
-                <div style={{ fontSize: '1.1rem', fontWeight: 700 }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Correct / Wrong</div>
+                <div style={{ fontSize: '1.05rem', fontWeight: 700 }}>
                   <span style={{ color: '#34d399' }}>{selectedResult.correctAnswers}</span>
                   <span style={{ color: 'var(--text-muted)', margin: '0 4px' }}>/</span>
                   <span style={{ color: '#fb7185' }}>{selectedResult.wrongAnswers}</span>
                 </div>
               </div>
               <div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Time Spent</div>
-                <div style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Time Spent</div>
+                <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)' }}>
                   {formatTime(selectedResult.timeSpentSeconds)}
                 </div>
               </div>
             </div>
 
             {/* Answer items scrollable */}
-            <div style={{ flex: 1, overflowY: 'auto', paddingRight: '8px' }}>
-              <h4 style={{ fontSize: '0.95rem', marginBottom: '12px', color: 'var(--text-secondary)' }}>
-                Question-by-Question Breakdown (50 Questions)
+            <div style={{ flex: 1, overflowY: 'auto', paddingRight: '4px' }}>
+              <h4 style={{ fontSize: '0.9rem', marginBottom: '10px', color: 'var(--text-secondary)' }}>
+                Question Breakdown (50 Questions)
               </h4>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: '8px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(95px, 1fr))', gap: '6px' }}>
                 {selectedResult.answers?.map((ans, idx) => (
                   <div
                     key={idx}
                     style={{
-                      padding: '10px',
+                      padding: '8px 10px',
                       borderRadius: 'var(--radius-sm)',
                       background: ans.isCorrect 
                         ? 'rgba(16, 185, 129, 0.12)' 
@@ -684,7 +794,7 @@ export const AdminDashboard = () => {
                         : 'rgba(244, 63, 94, 0.12)',
                       border: `1px solid ${
                         ans.isCorrect 
-                          ? 'rgba(16, 185, 129, 0.3)' 
+                           ? 'rgba(16, 185, 129, 0.3)' 
                           : ans.selectedOption === null 
                           ? 'rgba(148, 163, 184, 0.2)' 
                           : 'rgba(244, 63, 94, 0.3)'
@@ -692,26 +802,27 @@ export const AdminDashboard = () => {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
-                      fontSize: '0.85rem',
+                      fontSize: '0.8rem',
                     }}
                   >
                     <span>Q{ans.questionNumber}</span>
                     {ans.isCorrect ? (
-                      <CheckCircle2 size={16} color="#34d399" />
+                      <CheckCircle2 size={15} color="#34d399" />
                     ) : ans.selectedOption === null ? (
-                      <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Skipped</span>
+                      <span style={{ fontSize: '0.68rem', color: 'var(--text-muted)' }}>Skip</span>
                     ) : (
-                      <XCircle size={16} color="#fb7185" />
+                      <XCircle size={15} color="#fb7185" />
                     )}
                   </div>
                 ))}
               </div>
             </div>
 
-            <div style={{ marginTop: '18px', textAlign: 'right' }}>
+            <div style={{ marginTop: '16px', textAlign: 'right' }}>
               <button
                 onClick={() => setSelectedResult(null)}
                 className="btn btn-secondary"
+                style={{ width: '100%', minHeight: '42px' }}
               >
                 Close Review
               </button>

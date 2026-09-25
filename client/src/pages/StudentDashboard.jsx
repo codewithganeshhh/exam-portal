@@ -85,14 +85,9 @@ export const StudentDashboard = ({ onStartExam }) => {
   ];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
       {/* Welcome Banner */}
-      <div className="glass-panel" style={{
-        padding: '28px 32px',
-        position: 'relative',
-        overflow: 'hidden',
-        background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.95) 100%)',
-      }}>
+      <div className="glass-panel student-banner">
         <div style={{
           position: 'absolute',
           top: 0,
@@ -102,23 +97,23 @@ export const StudentDashboard = ({ onStartExam }) => {
           background: 'var(--grad-primary)',
         }} />
 
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '20px' }}>
+        <div className="student-banner-header">
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
               <span className="badge badge-student">Student Candidate</span>
               <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Online Assessment Session</span>
             </div>
-            <h1 style={{ fontSize: '2rem', marginBottom: '8px' }}>
+            <h1 className="student-banner-title">
               Welcome back, <span className="gradient-text">{user?.name}</span>! 👋
             </h1>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', maxWidth: '640px', lineHeight: 1.5 }}>
-              Choose an exam module below. Each exam contains <strong>50 intermediate-level questions</strong> designed to thoroughly evaluate your core frontend engineering competencies.
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', maxWidth: '640px', lineHeight: 1.5 }}>
+              Choose an exam module below. Each exam contains <strong>50 intermediate-level questions</strong> designed to evaluate your frontend competencies.
             </p>
           </div>
 
           {/* Quick Notice */}
-          <div style={{
-            padding: '14px 18px',
+          <div className="student-banner-notice" style={{
+            padding: '12px 16px',
             background: 'rgba(99, 102, 241, 0.1)',
             border: '1px solid rgba(99, 102, 241, 0.25)',
             borderRadius: 'var(--radius-md)',
@@ -126,10 +121,10 @@ export const StudentDashboard = ({ onStartExam }) => {
             alignItems: 'center',
             gap: '12px',
           }}>
-            <Sparkles size={24} color="#a855f7" />
-            <div style={{ fontSize: '0.85rem' }}>
+            <Sparkles size={22} color="#a855f7" style={{ flexShrink: 0 }} />
+            <div style={{ fontSize: '0.82rem' }}>
               <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>Rules & Evaluation</div>
-              <div style={{ color: 'var(--text-secondary)' }}>50 Qs • 60 Mins • Auto-evaluated on submit</div>
+              <div style={{ color: 'var(--text-secondary)' }}>50 Qs • 60 Mins • Immediate Auto-grading</div>
             </div>
           </div>
         </div>
@@ -139,14 +134,10 @@ export const StudentDashboard = ({ onStartExam }) => {
       <div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '18px' }}>
           <BookOpen size={20} color="#6366f1" />
-          <h2 style={{ fontSize: '1.4rem' }}>Available Examination Tracks</h2>
+          <h2 style={{ fontSize: '1.35rem' }}>Available Examination Tracks</h2>
         </div>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '24px',
-        }}>
+        <div className="exam-cards-grid">
           {examCards.map((exam) => {
             const subSummary = summary ? summary[exam.subject] : null;
             const hasAttempted = subSummary?.attempted;
@@ -155,9 +146,8 @@ export const StudentDashboard = ({ onStartExam }) => {
             return (
               <div
                 key={exam.subject}
-                className="glass-panel glass-panel-hover"
+                className="glass-panel glass-panel-hover glass-panel-responsive"
                 style={{
-                  padding: '28px',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
@@ -176,7 +166,7 @@ export const StudentDashboard = ({ onStartExam }) => {
                 }} />
 
                 <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', gap: '8px' }}>
                     <span className={`badge ${exam.badgeClass}`}>
                       {exam.subject} EXAM
                     </span>
@@ -186,7 +176,7 @@ export const StudentDashboard = ({ onStartExam }) => {
                     </div>
                   </div>
 
-                  <h3 style={{ fontSize: '1.25rem', marginBottom: '10px' }}>
+                  <h3 style={{ fontSize: '1.2rem', marginBottom: '10px', lineHeight: 1.3 }}>
                     {exam.title}
                   </h3>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: 1.6, marginBottom: '20px' }}>
@@ -196,13 +186,14 @@ export const StudentDashboard = ({ onStartExam }) => {
                   <div style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '14px',
+                    flexWrap: 'wrap',
+                    gap: '10px 14px',
                     padding: '12px 14px',
                     background: 'rgba(15, 23, 42, 0.6)',
                     borderRadius: 'var(--radius-sm)',
                     border: '1px solid var(--border-subtle)',
                     marginBottom: '22px',
-                    fontSize: '0.85rem',
+                    fontSize: '0.82rem',
                   }}>
                     <div>
                       <span style={{ color: 'var(--text-muted)' }}>Questions: </span>
@@ -228,10 +219,11 @@ export const StudentDashboard = ({ onStartExam }) => {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
+                      gap: '8px',
                     }}>
                       <div>
                         <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Best Score</div>
-                        <div style={{ fontSize: '1.1rem', fontWeight: 800, color: best.passed ? '#34d399' : '#fb7185' }}>
+                        <div style={{ fontSize: '1.05rem', fontWeight: 800, color: best.passed ? '#34d399' : '#fb7185' }}>
                           {best.score} / {best.totalQuestions} ({best.percentage}%)
                         </div>
                       </div>
@@ -263,6 +255,7 @@ export const StudentDashboard = ({ onStartExam }) => {
                       width: '100%',
                       background: exam.gradient,
                       boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3)',
+                      minHeight: '44px',
                     }}
                   >
                     <span>{hasAttempted ? 'Retake Exam' : 'Start Assessment'}</span>
@@ -276,7 +269,7 @@ export const StudentDashboard = ({ onStartExam }) => {
       </div>
 
       {/* PREVIOUS ATTEMPT HISTORY */}
-      <div className="glass-panel" style={{ padding: '24px 28px' }}>
+      <div className="glass-panel glass-panel-responsive">
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '18px' }}>
           <History size={20} color="#6366f1" />
           <h2 style={{ fontSize: '1.3rem' }}>Your Assessment History</h2>
@@ -292,46 +285,103 @@ export const StudentDashboard = ({ onStartExam }) => {
             <p>You have not submitted any exams yet. Pick an assessment above to get started!</p>
           </div>
         ) : (
-          <div className="table-container">
-            <table className="data-table">
-              <thead>
-                <tr>
-                  <th>Subject</th>
-                  <th>Questions</th>
-                  <th>Score</th>
-                  <th>Percentage</th>
-                  <th>Status</th>
-                  <th>Time Taken</th>
-                  <th>Date & Time</th>
-                </tr>
-              </thead>
-              <tbody>
-                {history.map((h) => (
-                  <tr key={h._id}>
-                    <td>
-                      <span className={`badge badge-${h.subject.toLowerCase()}`}>
-                        {h.subject}
-                      </span>
-                    </td>
-                    <td>{h.totalQuestions}</td>
-                    <td style={{ fontWeight: 700 }}>
-                      {h.score} <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>/ {h.totalQuestions}</span>
-                    </td>
-                    <td style={{ fontWeight: 600 }}>{h.percentage}%</td>
-                    <td>
-                      <span className={`badge ${h.passed ? 'badge-passed' : 'badge-failed'}`}>
-                        {h.passed ? 'Passed' : 'Failed'}
-                      </span>
-                    </td>
-                    <td>{formatTime(h.timeSpentSeconds)}</td>
-                    <td style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
-                      {formatDate(h.submittedAt)}
-                    </td>
+          <>
+            {/* Desktop / Tablet Table View */}
+            <div className="table-container hide-mobile">
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Subject</th>
+                    <th>Questions</th>
+                    <th>Score</th>
+                    <th>Percentage</th>
+                    <th>Status</th>
+                    <th>Time Taken</th>
+                    <th>Date & Time</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {history.map((h) => (
+                    <tr key={h._id}>
+                      <td>
+                        <span className={`badge badge-${h.subject.toLowerCase()}`}>
+                          {h.subject}
+                        </span>
+                      </td>
+                      <td>{h.totalQuestions}</td>
+                      <td style={{ fontWeight: 700 }}>
+                        {h.score} <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>/ {h.totalQuestions}</span>
+                      </td>
+                      <td style={{ fontWeight: 600 }}>{h.percentage}%</td>
+                      <td>
+                        <span className={`badge ${h.passed ? 'badge-passed' : 'badge-failed'}`}>
+                          {h.passed ? 'Passed' : 'Failed'}
+                        </span>
+                      </td>
+                      <td>{formatTime(h.timeSpentSeconds)}</td>
+                      <td style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
+                        {formatDate(h.submittedAt)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Native Card View */}
+            <div className="show-mobile">
+              {history.map((h) => (
+                <div key={h._id} className="mobile-history-card">
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span className={`badge badge-${h.subject.toLowerCase()}`}>
+                      {h.subject} Exam
+                    </span>
+                    <span className={`badge ${h.passed ? 'badge-passed' : 'badge-failed'}`}>
+                      {h.passed ? 'Passed' : 'Failed'}
+                    </span>
+                  </div>
+
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginTop: '4px' }}>
+                    <div>
+                      <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Score: </span>
+                      <strong style={{ fontSize: '1.25rem', color: h.passed ? '#34d399' : '#fb7185' }}>
+                        {h.score}
+                      </strong>
+                      <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}> / {h.totalQuestions}</span>
+                    </div>
+                    <div style={{ fontWeight: 700, fontSize: '1.1rem' }}>
+                      {h.percentage}%
+                    </div>
+                  </div>
+
+                  {/* Visual percentage progress bar */}
+                  <div style={{ width: '100%', height: '5px', background: 'rgba(255,255,255,0.08)', borderRadius: '3px', overflow: 'hidden' }}>
+                    <div style={{
+                      width: `${h.percentage}%`,
+                      height: '100%',
+                      background: h.passed ? 'var(--emerald)' : 'var(--rose)',
+                      borderRadius: '3px',
+                    }} />
+                  </div>
+
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    fontSize: '0.78rem',
+                    color: 'var(--text-secondary)',
+                    paddingTop: '6px',
+                    borderTop: '1px solid rgba(255,255,255,0.04)',
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <Clock size={13} />
+                      <span>{formatTime(h.timeSpentSeconds)}</span>
+                    </div>
+                    <div>{formatDate(h.submittedAt)}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
     </div>
