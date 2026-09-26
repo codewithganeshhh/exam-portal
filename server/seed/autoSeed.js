@@ -3,20 +3,10 @@ import Question from '../models/Question.js';
 import { htmlQuestions } from './htmlQuestions.js';
 import { cssQuestions } from './cssQuestions.js';
 import { jsQuestions } from './jsQuestions.js';
+import { aimlQuestions } from './aimlQuestions.js';
 
 export async function checkAndAutoSeed() {
   try {
-    const userCount = await User.countDocuments();
-    const questionCount = await Question.countDocuments();
-
-    // If users or questions already exist, skip automatic seeding
-    if (userCount > 0 && questionCount > 0) {
-      console.log(`Database already has ${userCount} users and ${questionCount} questions. Auto-seed skipped.`);
-      return;
-    }
-
-    console.log('Database is empty or incomplete. Running initial auto-seed...');
-
     // 1. Ensure Admin exists
     const adminExists = await User.findOne({ username: 'admin' });
     if (!adminExists) {
@@ -43,18 +33,27 @@ export async function checkAndAutoSeed() {
       console.log('✅ Auto-seed: Created Student user (username: student / password: student)');
     }
 
-    // 3. Ensure Questions exist
-    if (questionCount === 0) {
-      const allQuestions = [
+    // 3. Ensure base questions (HTML, CSS, JS) exist
+    const baseQuestionCount = await Question.countDocuments({ subject: { $in: ['HTML', 'CSS', 'JS'] } });
+    if (baseQuestionCount === 0) {
+      const baseQuestions = [
         ...htmlQuestions.map(q => ({ ...q, subject: 'HTML', difficulty: 'intermediate' })),
         ...cssQuestions.map(q => ({ ...q, subject: 'CSS', difficulty: 'intermediate' })),
         ...jsQuestions.map(q => ({ ...q, subject: 'JS', difficulty: 'intermediate' })),
       ];
-      await Question.insertMany(allQuestions);
-      console.log(`✅ Auto-seed: Seeded ${allQuestions.length} exam questions (HTML, CSS, JS)!`);
+      await Question.insertMany(baseQuestions);
+      console.log(`✅ Auto-seed: Seeded ${baseQuestions.length} exam questions (HTML, CSS, JS)!`);
     }
 
-    console.log('🎉 Auto-seeding finished successfully!');
+    // 4. Ensure AIML questions exist
+    const aimlCount = await Question.countDocuments({ subject: 'AIML' });
+    if (aimlCount === 0) {
+      const aimlData = aimlQuestions.map(q => ({ ...q, subject: 'AIML', difficulty: q.difficulty || 'basic' }));
+      await Question.insertMany(aimlData);
+      console.log(`✅ Auto-seed: Seeded ${aimlData.length} AIML exam questions (40 Basic + 10 Medium)!`);
+    }
+
+    console.log('🎉 Auto-seeding check finished successfully!');
   } catch (error) {
     console.error('⚠️ Auto-seed check failed (non-fatal):', error.message);
   }

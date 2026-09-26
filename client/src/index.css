@@ -36,6 +36,7 @@
   --grad-html: linear-gradient(135deg, #f97316 0%, #ef4444 100%);
   --grad-css: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
   --grad-js: linear-gradient(135deg, #eab308 0%, #f59e0b 100%);
+  --grad-aiml: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
   --grad-surface: linear-gradient(180deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.8) 100%);
 
   /* Radius & Shadows */
@@ -309,6 +310,12 @@ h1, h2, h3, h4 {
   background: rgba(234, 179, 8, 0.15);
   color: #facc15;
   border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+.badge-aiml {
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.3);
 }
 
 .badge-passed {

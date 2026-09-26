@@ -82,6 +82,16 @@ export const StudentDashboard = ({ onStartExam }) => {
       badgeClass: 'badge-js',
       iconColor: '#facc15',
     },
+    {
+      subject: 'AIML',
+      title: 'AI & Machine Learning Assessment',
+      desc: 'NumPy, Pandas, Matplotlib, Seaborn, Scikit-Learn, GitHub, and Core Machine Learning Fundamentals.',
+      questions: 50,
+      duration: '60 Minutes',
+      gradient: 'var(--grad-aiml)',
+      badgeClass: 'badge-aiml',
+      iconColor: '#c084fc',
+    },
   ];
 
   return (
@@ -107,7 +117,7 @@ export const StudentDashboard = ({ onStartExam }) => {
               Welcome back, <span className="gradient-text">{user?.name}</span>! 👋
             </h1>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', maxWidth: '640px', lineHeight: 1.5 }}>
-              Choose an exam module below. Each exam contains <strong>50 intermediate-level questions</strong> designed to evaluate your frontend competencies.
+              Choose an exam module below. Each exam contains <strong>50 questions (Basic & Medium)</strong> designed to evaluate your technical competencies.
             </p>
           </div>
 

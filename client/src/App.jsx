@@ -11,7 +11,7 @@ const AppContent = () => {
   const { user, loading, isAdmin, isStudent } = useAuth();
 
   // Active student state
-  const [activeExamSubject, setActiveExamSubject] = useState(null); // 'HTML' | 'CSS' | 'JS' | null
+  const [activeExamSubject, setActiveExamSubject] = useState(null); // 'HTML' | 'CSS' | 'JS' | 'AIML' | null
   const [examResult, setExamResult] = useState(null);
 
   if (loading) {

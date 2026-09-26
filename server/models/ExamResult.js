@@ -31,7 +31,7 @@ const examResultSchema = new mongoose.Schema({
   },
   subject: {
     type: String,
-    enum: ['HTML', 'CSS', 'JS'],
+    enum: ['HTML', 'CSS', 'JS', 'AIML'],
     required: true,
     index: true,
   },

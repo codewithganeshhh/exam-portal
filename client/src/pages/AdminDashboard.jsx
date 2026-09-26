@@ -200,7 +200,7 @@ export const AdminDashboard = () => {
             </div>
           </div>
           <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '6px' }}>
-            Total completed submissions across HTML, CSS, JS
+            Total completed submissions across all tracks
           </div>
         </div>
 
@@ -254,6 +254,23 @@ export const AdminDashboard = () => {
             {stats?.subjectStats?.JS?.count ?? 0} students completed
           </div>
         </div>
+
+        <div className="glass-panel" style={{ padding: '16px 18px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase' }}>
+                AIML Exam Avg
+              </div>
+              <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#c084fc', marginTop: '2px' }}>
+                {stats?.subjectStats?.AIML ? `${stats.subjectStats.AIML.avgScore} / 50` : '0 / 50'}
+              </div>
+            </div>
+            <span className="badge badge-aiml">AIML</span>
+          </div>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '6px' }}>
+            {stats?.subjectStats?.AIML?.count ?? 0} students completed
+          </div>
+        </div>
       </div>
 
       {/* Tabs Navigation */}
@@ -293,7 +310,7 @@ export const AdminDashboard = () => {
               <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginRight: '4px' }}>
                 Filter:
               </span>
-              {['ALL', 'HTML', 'CSS', 'JS'].map((sub) => (
+              {['ALL', 'HTML', 'CSS', 'JS', 'AIML'].map((sub) => (
                 <button
                   key={sub}
                   onClick={() => setSelectedSubject(sub)}
@@ -329,7 +346,7 @@ export const AdminDashboard = () => {
               <Award size={48} color="var(--text-muted)" style={{ margin: '0 auto 12px', opacity: 0.5 }} />
               <h3 style={{ fontSize: '1.2rem', marginBottom: '6px' }}>No Exam Submissions Found</h3>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-                {searchQuery ? 'No results matched your search.' : 'Once students complete HTML, CSS, or JS exams, their scores will appear here.'}
+                {searchQuery ? 'No results matched your search.' : 'Once students complete exams, their scores will appear here.'}
               </p>
             </div>
           ) : (

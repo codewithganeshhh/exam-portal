@@ -23,7 +23,7 @@ export const Navbar = ({ currentView, onNavigate }) => {
               <span className="gradient-text">PORTAL</span>
             </div>
             <div className="navbar-brand-sub">
-              HTML • CSS • JavaScript Assessments
+              HTML • CSS • JavaScript • AI/ML Assessments
             </div>
           </div>
         </div>

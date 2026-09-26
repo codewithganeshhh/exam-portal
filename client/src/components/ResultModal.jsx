@@ -51,7 +51,7 @@ export const ResultModal = ({ result, onClose }) => {
           {isPassed ? 'Congratulations! 🎉' : 'Assessment Completed'}
         </h2>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '20px', lineHeight: 1.5 }}>
-          Your answers for the <strong>{result.subject} Intermediate Exam</strong> have been evaluated and recorded into the database.
+          Your answers for the <strong>{result.subject} Assessment</strong> have been evaluated and recorded into the database.
         </p>
 
         {/* Score Highlight Box */}

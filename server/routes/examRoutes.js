@@ -15,10 +15,10 @@ router.get('/:subject', studentOnly, async (req, res) => {
   try {
     const subject = req.params.subject.toUpperCase();
 
-    if (!['HTML', 'CSS', 'JS'].includes(subject)) {
+    if (!['HTML', 'CSS', 'JS', 'AIML'].includes(subject)) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid subject. Available exams: HTML, CSS, JS',
+        message: 'Invalid subject. Available exams: HTML, CSS, JS, AIML',
       });
     }
 
@@ -58,7 +58,7 @@ router.post('/submit', studentOnly, async (req, res) => {
   try {
     const { subject, answers, timeSpentSeconds } = req.body;
 
-    if (!subject || !['HTML', 'CSS', 'JS'].includes(subject.toUpperCase())) {
+    if (!subject || !['HTML', 'CSS', 'JS', 'AIML'].includes(subject.toUpperCase())) {
       return res.status(400).json({ success: false, message: 'Valid subject is required' });
     }
 
@@ -177,11 +177,11 @@ router.get('/student/my-results', studentOnly, async (req, res) => {
 });
 
 // @route   GET /api/exams/student/summary
-// @desc    Get student summary status for HTML, CSS, JS
+// @desc    Get student summary status for HTML, CSS, JS, AIML
 // @access  Private (Student)
 router.get('/student/summary', studentOnly, async (req, res) => {
   try {
-    const subjects = ['HTML', 'CSS', 'JS'];
+    const subjects = ['HTML', 'CSS', 'JS', 'AIML'];
     const summary = {};
 
     for (const sub of subjects) {

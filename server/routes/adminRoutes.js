@@ -149,7 +149,7 @@ router.get('/results', async (req, res) => {
     const { subject, search } = req.query;
 
     const filter = {};
-    if (subject && ['HTML', 'CSS', 'JS'].includes(subject.toUpperCase())) {
+    if (subject && ['HTML', 'CSS', 'JS', 'AIML'].includes(subject.toUpperCase())) {
       filter.subject = subject.toUpperCase();
     }
 
@@ -189,7 +189,7 @@ router.get('/stats', async (req, res) => {
     const totalExams = await ExamResult.countDocuments();
 
     // Subject breakdown
-    const subjects = ['HTML', 'CSS', 'JS'];
+    const subjects = ['HTML', 'CSS', 'JS', 'AIML'];
     const subjectStats = {};
 
     for (const sub of subjects) {

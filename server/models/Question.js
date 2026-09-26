@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const questionSchema = new mongoose.Schema({
   subject: {
     type: String,
-    enum: ['HTML', 'CSS', 'JS'],
+    enum: ['HTML', 'CSS', 'JS', 'AIML'],
     required: true,
     index: true,
   },
@@ -32,7 +32,7 @@ const questionSchema = new mongoose.Schema({
   },
   difficulty: {
     type: String,
-    enum: ['beginner', 'intermediate', 'advanced'],
+    enum: ['beginner', 'intermediate', 'advanced', 'basic', 'medium'],
     default: 'intermediate',
   },
 }, { timestamps: true });

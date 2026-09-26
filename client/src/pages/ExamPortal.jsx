@@ -304,7 +304,9 @@ export const ExamPortal = ({ subject, onFinishExam, onCancel }) => {
             }}>
               <span>Question #{currentQ?.questionNumber}</span>
               <span>•</span>
-              <span style={{ color: '#c084fc' }}>Intermediate</span>
+              <span style={{ color: '#c084fc', textTransform: 'capitalize' }}>
+                {currentQ?.difficulty || 'Intermediate'}
+              </span>
               <span>•</span>
               <span>1 Mark</span>
             </div>

@@ -7,6 +7,7 @@ import Question from '../models/Question.js';
 import { htmlQuestions } from './htmlQuestions.js';
 import { cssQuestions } from './cssQuestions.js';
 import { jsQuestions } from './jsQuestions.js';
+import { aimlQuestions } from './aimlQuestions.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -55,7 +56,7 @@ async function seedDatabase() {
       console.log('✅ Updated Student account password to: student');
     }
 
-    // 3. Clear existing questions and insert fresh 150 questions
+    // 3. Clear existing questions and insert fresh questions
     await Question.deleteMany({});
     console.log('Cleared existing questions...');
 
@@ -64,13 +65,15 @@ async function seedDatabase() {
       ...htmlQuestions.map(q => ({ ...q, subject: 'HTML', difficulty: 'intermediate' })),
       ...cssQuestions.map(q => ({ ...q, subject: 'CSS', difficulty: 'intermediate' })),
       ...jsQuestions.map(q => ({ ...q, subject: 'JS', difficulty: 'intermediate' })),
+      ...aimlQuestions.map(q => ({ ...q, subject: 'AIML', difficulty: q.difficulty || 'basic' })),
     ];
 
     await Question.insertMany(allQuestions);
-    console.log(`🎉 Successfully seeded ${allQuestions.length} intermediate questions into MongoDB!`);
-    console.log(`   - HTML: ${htmlQuestions.length} questions`);
-    console.log(`   - CSS:  ${cssQuestions.length} questions`);
-    console.log(`   - JS:   ${jsQuestions.length} questions`);
+    console.log(`🎉 Successfully seeded ${allQuestions.length} questions into MongoDB!`);
+    console.log(`   - HTML:  ${htmlQuestions.length} questions`);
+    console.log(`   - CSS:   ${cssQuestions.length} questions`);
+    console.log(`   - JS:    ${jsQuestions.length} questions`);
+    console.log(`   - AIML:  ${aimlQuestions.length} questions (40 Basic + 10 Medium)`);
 
     console.log('\n--- Seeding Complete ---');
     console.log('You can log in at the portal with:');
